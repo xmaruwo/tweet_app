@@ -38,6 +38,7 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     @user.name = params[:name]
     @user.email = params[:email]
+    @user.password = params[:password]
     if params[:image]
       @user.image_name = "#{@user.id}.jpeg"
       image = params[:image]
@@ -56,10 +57,9 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by(
-      email: params[:email],
-      password: params[:password]
+      email: params[:email]
     )
-    if @user
+    if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
       flash[:notice] = "ログインしました"
       redirect_to("/posts/index")
