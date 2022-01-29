@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   post 'likes/:post_id/create' => "likes#create"
   post 'likes/:post_id/destroy' => "likes#destroy"
+  post 'bookmarks/:post_id/create' => "bookmarks#create"
+  post 'bookmarks/:post_id/destroy' => "bookmarks#destroy"
 
   get 'login' => "users#login_form"
   post 'login' => "users#login"
@@ -13,6 +15,7 @@ Rails.application.routes.draw do
   get 'users/index'
   get 'users/:id' => "users#show"
   get 'users/:id/likes' => "users#likes"
+  get 'users/:id/bookmarks' => "users#bookmarks"
 
   get 'posts/index' => "posts#index"
   get 'posts/new' => "posts#new"

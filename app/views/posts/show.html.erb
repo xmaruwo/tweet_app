@@ -21,6 +21,20 @@
         <% end %>
       <% end %>
       <%= @likes_count %>
+      <% if Bookmark.find_by(user_id: @current_user.id, post_id: @post.id) %>
+        <%= link_to("/bookmarks/#{@post.id}/destroy", {method: "post"}) do %>
+          <span class="fa fa-bookmark bookmark-btn"></span>
+        <% end %>
+      <% else %>
+        <%= link_to("/bookmarks/#{@post.id}/create", {method: "post"}) do %>
+          <span class="fa fa-bookmark unbookmark-btn"></span>
+        <% end %>
+      <% end %>
+
+      <%= link_to("https://twitter.com/intent/tweet?text=#{@post.content}") do %>
+        <span class="fa fa-twitter tweet-btn" ></span>
+      <% end %>
+
       <% if @post.user_id == @current_user.id %>
         <div class="post-menus">
           <%= link_to("編集", "/posts/#{@post.id}/edit") %>

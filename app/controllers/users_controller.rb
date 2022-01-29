@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, {only: [:index, :show, :edit, :update]}
+  before_action :authenticate_user, {only: [:index, :show, :edit, :update, :likes, :bookmarks]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
   before_action :ensure_correct_user, {only: [:edit, :update]}
 
@@ -80,6 +80,15 @@ class UsersController < ApplicationController
   def likes
     @user = User.find_by(id: params[:id])
     @likes = Like.where(user_id: @user.id)
+  end
+
+  def bookmarks
+    @user = User.find_by(id: params[:id])
+    if @user.id != @current_user.id
+      redirect_to("/users/#{@user.id}")
+    else
+      @bookmarks = Bookmark.where(user_id: @user.id)
+    end
   end
 
   def ensure_correct_user
